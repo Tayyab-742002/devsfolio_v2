@@ -97,7 +97,7 @@ const AboutMe: FC<AboutMeProps> = ({ slice }) => {
       </div>
 
       {/* Responsive Layout */}
-      <div className="grid grid-cols-1 gap-8 max-w-7xl mx-auto px-6 lg:px-15 lg:grid-cols-12 items-start">
+      <div className="grid grid-cols-1 gap-8 max-w-7xl mx-auto px-6 lg:px-15 lg:grid-cols-12 items-start ">
         {/* Profile */}
         <div className="lg:col-span-7 flex">
           <div className="w-full rounded-2xl hover:scale-105 hover:shadow-[0_20px_50px_rgba(140,92,255,0.7)] transition-all duration-300">
