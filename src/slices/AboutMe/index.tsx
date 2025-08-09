@@ -94,7 +94,7 @@ const AboutMe: FC<AboutMeProps> = ({ slice }) => {
             ABOUT ME
           </h2>
         </div>
-        <Brushstroke color="#8c5cff" width={210} height={25} />
+        <Brushstroke width={210} height={25} />
         {/* <div className="w-32 h-0.5 mt-2 bg-primary ml-9 neon-divider" /> */}
       </div>
 
