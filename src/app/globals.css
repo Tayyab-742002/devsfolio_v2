@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap");
 
 :root {
   --background: oklch(0.2223 0.006 271.1393);
@@ -45,6 +46,8 @@
   --shadow-lg: 0px 2px 3px 0px hsl(0 0% 0% / 0.16), 0px 4px 6px -1px hsl(0 0% 0% / 0.16);
   --shadow-xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.16), 0px 8px 10px -1px hsl(0 0% 0% / 0.16);
   --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.4);
+
+  --brush: url("/brush-light.svg");
 }
 
 @theme inline {
@@ -110,8 +113,9 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  /* font-family: var(--font-sans); */
   letter-spacing: var(--tracking-normal);
+  font-family: "Comic Neue", cursive;
   /* Background pattern */
   /* background-image:
     linear-gradient(to right, var(--color-gray-800) 1px, transparent 1px),

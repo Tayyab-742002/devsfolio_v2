@@ -1,0 +1,5 @@
+.brush-stroke {
+    clip-path: url(#YellowSvgPath);
+    position: relative;
+    background: var(--primary);
+}
