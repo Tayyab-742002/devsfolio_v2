@@ -5,6 +5,7 @@ import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import BrushStroke from "@/components/common/PaintedBrushStroke";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -62,7 +63,6 @@ const Experience: FC<ExperienceProps> = ({ slice }) => {
   }, [deviceType]);
 
   const isDesktop = deviceType === "desktop";
-  const isMobile = deviceType === "mobile";
 
   return (
     <section
@@ -79,14 +79,12 @@ const Experience: FC<ExperienceProps> = ({ slice }) => {
         transition={{ duration: 0.8 }}
       >
         <div className="flex items-center gap-4 ">
-          <span className="text-[#4f8fff] text-lg tracking-wider neon-text">
-            02
-          </span>
+          <span className="text-primary text-2xl tracking-wider">02</span>
           <h2 className="text-2xl  font-bold text-white tracking-wider ">
             EXPERIENCE
           </h2>
         </div>
-        <div className="w-32 h-0.5 mt-2 bg-[#4f8fff]  ml-9 neon-divider" />
+        <BrushStroke width={240} height={25} />
       </motion.div>
 
       <div className="container mx-auto px-4 sm:px-6 md:px-8 relative">

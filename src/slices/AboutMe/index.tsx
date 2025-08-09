@@ -87,9 +87,7 @@ const AboutMe: FC<AboutMeProps> = ({ slice }) => {
       {/* Header */}
       <div className="pl-4 mb-16 md:pl-8 relative z-30">
         <div className="flex items-center gap-4">
-          <span className="text-primary text-lg tracking-wider neon-text">
-            01
-          </span>
+          <span className="text-primary text-2xl tracking-wider ">01</span>
           <h2 className="text-2xl font-bold text-foreground tracking-wider">
             ABOUT ME
           </h2>
@@ -111,6 +109,8 @@ const AboutMe: FC<AboutMeProps> = ({ slice }) => {
                   </h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     Software engineer with a passion for building web
+                    applications that are both functional and aesthetically
+                    pleasing. Software engineer with a passion for building web
                     applications that are both functional and aesthetically
                     pleasing.
                   </p>
@@ -155,14 +155,14 @@ const AboutMe: FC<AboutMeProps> = ({ slice }) => {
                   const Icon = getSvg(String(skill.tag_name).toLowerCase());
                   if (index < 24) {
                     return (
-                      <>
+                      <div key={skill.tag_name}>
                         <Tooltip
                           id={skill.tag_name as string}
                           className="bg-primary!  border-primary!  shadow-primary/20!  text-xs! font-medium! tracking-wider!"
                         />
 
                         <div
-                          key={skill.tag_name}
+                          // key={skill.tag_name}
                           className="rounded-lg bg-transparent flex items-center justify-center group cursor-pointer hover:scale-105 hover:shadow-glow transition-all duration-300"
                         >
                           <span className="text-primary group-hover:text-foreground transition-colors">
@@ -177,7 +177,7 @@ const AboutMe: FC<AboutMeProps> = ({ slice }) => {
                             )}
                           </span>
                         </div>
-                      </>
+                      </div>
                     );
                   }
                   return null;
