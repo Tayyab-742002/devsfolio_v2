@@ -1,3 +1,4 @@
+import type { ComponentType, SVGProps } from "react";
 import {
   ReactIcon,
   NextIcon,
@@ -24,9 +25,13 @@ import {
   Appwrite,
   Prisma,
   Jest,
+  Link,
+  Resend,
+  Stripe,
+  Shadcn,
 } from "@/components/icons";
 
-const techIcons = {
+const techIcons: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
   react: ReactIcon,
   next: NextIcon,
   tailwind: TailwindIcon,
@@ -52,8 +57,14 @@ const techIcons = {
   appwrite: Appwrite,
   prisma: Prisma,
   jest: Jest,
+  link: Link,
+  resend: Resend,
+  stripe: Stripe,
+  shadcn: Shadcn,
 };
 
-export function getSvg(iconName: string) {
+export function getSvg(
+  iconName: string
+): ComponentType<SVGProps<SVGSVGElement>> | undefined {
   return techIcons[iconName as keyof typeof techIcons];
 }

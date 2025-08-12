@@ -23,7 +23,10 @@ import Sanity from "./Sanity";
 import Appwrite from "./Appwrite";
 import Prisma from "./Prisma";
 import Jest from "./Jest";
-
+import Link from "./Link";
+import Resend from "./Resend";
+import Stripe from "./Stripe";
+import Shadcn from "./Shadcn";
 export {
   ReactIcon,
   NextIcon,
@@ -50,4 +53,8 @@ export {
   Appwrite,
   Prisma,
   Jest,
+  Link,
+  Resend,
+  Stripe,
+  Shadcn,
 };

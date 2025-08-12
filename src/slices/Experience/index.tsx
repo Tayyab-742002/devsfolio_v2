@@ -136,7 +136,7 @@ const Experience: FC<ExperienceProps> = ({ slice }) => {
                       {experience.company_name}
                     </h4>
                   </div>
-                  <div className="text-foreground text-xs md:text-sm font-mono whitespace-nowrap">
+                  <div className="text-foreground/50 text-xs md:text-sm font-mono whitespace-nowrap">
                     {experience.start_date} - {experience.end_date}
                   </div>
                 </div>
