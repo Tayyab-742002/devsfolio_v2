@@ -29,6 +29,7 @@ import {
   Resend,
   Stripe,
   Shadcn,
+  Play,
 } from "@/components/icons";
 
 const techIcons: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
@@ -61,6 +62,7 @@ const techIcons: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
   resend: Resend,
   stripe: Stripe,
   shadcn: Shadcn,
+  play: Play,
 };
 
 export function getSvg(

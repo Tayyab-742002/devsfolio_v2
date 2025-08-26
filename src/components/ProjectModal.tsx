@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PrismicNextImage } from "@prismicio/next";
-import {
-  X,
-  Github,
-  Globe,
-  Play,
-  ExternalLink,
-  Share2,
-  Link as LinkIcon,
-} from "lucide-react";
+import { X } from "lucide-react";
 import {
   ImageField,
   LinkField,
   RichTextField,
   asLink,
 } from "@prismicio/client";
+import { ExternalLink } from "@/components/icons";
 import { PrismicRichText } from "@prismicio/react";
 import { getSvg } from "@/utils/getSvg";
 
@@ -38,45 +31,20 @@ interface ProjectModalProps {
 
 const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [showShareOptions, setShowShareOptions] = useState(false);
 
+  const GithubIcon = getSvg("github") as React.ElementType;
+  const PlayIcon = getSvg("play") as React.ElementType;
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
       setIsPlaying(false);
-      setShowShareOptions(false);
     }
     return () => {
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
-
-  const handleShare = async () => {
-    if (!project) return;
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: project.title,
-          text: project.description,
-          url: window.location.href,
-        });
-      } catch (error) {
-        console.log("Error sharing:", error);
-      }
-    } else {
-      setShowShareOptions(!showShareOptions);
-    }
-  };
-
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-    } catch (error) {
-      console.log("Error copying to clipboard:", error);
-    }
-  };
 
   const modalVariants = {
     hidden: { opacity: 0, scale: 0.95 },
@@ -137,10 +105,9 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                       />
                       <button
                         onClick={() => setIsPlaying(true)}
-                        className="z-10 flex items-center gap-3 px-5 py-2.5 rounded-full bg-primary/90 hover:bg-primary text-white transition"
+                        className="z-10 flex items-center gap-3 px-5 py-2 rounded-full transition cursor-pointer"
                       >
-                        <Play className="w-5 h-5" />
-                        Watch Demo
+                        <PlayIcon className="w-24 h-24" />
                       </button>
                     </div>
                   ) : (
@@ -170,7 +137,7 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                 <h2 className="text-2xl sm:text-3xl font-bold text-white">
                   {project.title}
                 </h2>
-                <p className="text-white/80 text-base leading-relaxed">
+                <p className="text-white/80 text-sm font-mono tracking-tighter text-justify">
                   {project.description}
                 </p>
 
@@ -180,11 +147,10 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                       href={liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 text-white transition"
+                      className="flex items-center gap-2 px-4 py-1 rounded-lg bg-primary hover:bg-primary/90 text-white text-xs transition"
                     >
-                      <Globe className="w-4 h-4" />
+                      <ExternalLink className="w-6 h-6" fill="#ffffff" />
                       Visit Website
-                      <ExternalLink className="w-3 h-3" />
                     </a>
                   )}
                   {githubUrl && (
@@ -192,32 +158,13 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                       href={githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 transition"
+                      className="flex items-center gap-2 px-4 py-1 text-xs rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 transition"
                     >
-                      <Github className="w-4 h-4" />
+                      <GithubIcon className="w-4 h-4" />
                       View Code
                     </a>
                   )}
-                  <button
-                    onClick={handleShare}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 transition"
-                  >
-                    <Share2 className="w-4 h-4" />
-                    Share
-                  </button>
                 </div>
-
-                {showShareOptions && (
-                  <div className="bg-white/10 rounded-lg p-3 space-y-2 border border-white/20">
-                    <button
-                      onClick={copyToClipboard}
-                      className="flex items-center gap-2 text-white hover:underline"
-                    >
-                      <LinkIcon className="w-4 h-4" />
-                      Copy Link
-                    </button>
-                  </div>
-                )}
 
                 {/* Technologies */}
                 {project.technologies?.length ? (
@@ -239,7 +186,7 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
 
                 {/* Long Description */}
                 {project.long_description && (
-                  <div className="prose prose-invert max-w-none">
+                  <div className="text-white/80 text-sm font-mono tracking-tighter text-justify">
                     <PrismicRichText field={project.long_description} />
                   </div>
                 )}

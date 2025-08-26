@@ -27,6 +27,10 @@ import Link from "./Link";
 import Resend from "./Resend";
 import Stripe from "./Stripe";
 import Shadcn from "./Shadcn";
+import ExternalLink from "./ExternalLink";
+import Play from "./Play";
+import NextItem from "./NextItem";
+import PrevItem from "./PrevItem";
 export {
   ReactIcon,
   NextIcon,
@@ -57,4 +61,8 @@ export {
   Resend,
   Stripe,
   Shadcn,
+  ExternalLink,
+  Play,
+  NextItem,
+  PrevItem,
 };

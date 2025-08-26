@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PrismicNextImage } from "@prismicio/next";
 import { Calendar, Clock, Share2, X } from "lucide-react";
-import { Content, ImageField } from "@prismicio/client";
+import {  ImageField } from "@prismicio/client";
 
 interface BlogModalProps {
   isOpen: boolean;

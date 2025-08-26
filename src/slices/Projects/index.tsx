@@ -9,6 +9,7 @@ import ProjectModal from "@/components/ProjectModal";
 import BrushStroke from "@/components/common/PaintedBrushStroke";
 import { getSvg } from "@/utils/getSvg";
 import { Tooltip } from "react-tooltip";
+import { NextItem, PrevItem } from "@/components/icons";
 
 export type ProjectsProps = SliceComponentProps<Content.ProjectsSlice>;
 
@@ -290,7 +291,6 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
                           <PrismicNextImage
                             field={project.thumbnail}
                             className="w-full h-full object-cover"
-                            alt={project.thumbnail.alt || ""}
                           />
                         ) : (
                           <div className="flex items-center justify-center h-full">
@@ -372,28 +372,18 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
             </AnimatePresence>
           </div>
 
-          <div className="absolute bottom-[-3rem] left-0 right-0 flex items-center justify-center gap-5">
+          <div className="absolute bottom-[-5rem] left-0 right-0 flex items-center justify-center gap-5">
             <button
               onClick={goToPrev}
-              className="w-6 h-6 cursor-pointer rounded-full bg-[#14141e] border border-primary flex items-center justify-center hover:bg-[#252535] transition-colors"
+              className="w-8 h-8 cursor-pointer rounded-full   flex items-center justify-center hover:bg-[#252535] transition-colors"
               disabled={filteredProjects.length <= 1}
             >
-              <svg width="12" height="12" viewBox="0 0 8 10" fill="#4f8fff">
-                <path d="M7 1L1 5L7 9V1Z" fill="#4f8fff" />
-              </svg>
+              <PrevItem className="w-6 h-6" />
             </button>
 
             <div className="flex items-center">
               {filteredProjects.map((_, index) => (
                 <div key={index} className="flex items-center">
-                  <button
-                    onClick={() => setActiveIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 hover:scale-110 ${
-                      index <= activeIndex
-                        ? "bg-primary shadow-[0_0_10px_#4f8fff]"
-                        : "bg-[#252535]"
-                    }`}
-                  />
                   {index < filteredProjects.length - 1 && (
                     <div
                       className={`w-6 h-[2px] mx-1 transition-colors duration-300 ${
@@ -407,12 +397,10 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
 
             <button
               onClick={goToNext}
-              className="w-6 h-6 rounded-full cursor-pointer bg-[#14141e] border border-primary flex items-center justify-center hover:bg-[#252535] transition-colors"
+              className="w-8 h-8 rounded-full cursor-pointer  flex items-center justify-center hover:bg-[#252535] transition-colors"
               disabled={filteredProjects.length <= 1}
             >
-              <svg width="12" height="12" viewBox="0 0 8 10" fill="#4f8fff">
-                <path d="M1 1L7 5L1 9V1Z" fill="#4f8fff" />
-              </svg>
+              <NextItem className="w-6 h-6" />
             </button>
           </div>
         </div>
