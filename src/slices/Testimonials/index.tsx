@@ -77,7 +77,7 @@ const Testimonials: FC<TestimonialsProps> = ({ slice }) => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.4 }}
-                className=" shadow-[0_20px_50px_rgba(140,92,255,0.3)] rounded-[10px] hover:scale-105 hover:shadow-[0_20px_50px_rgba(140,92,255,0.7)] transition-all duration-300 p-8 md:p-12 mb-12 relative overflow-hidden"
+                className=" shadow-[0_20px_50px_rgba(140,92,255,0.3)] rounded-[10px]  hover:shadow-[0_20px_50px_rgba(140,92,255,0.7)] transition-all duration-300 p-8 md:p-12 mb-12 relative overflow-hidden"
               >
                 <div className="relative z-10">
                   <p className="text-gray-100 text-center text-xl md:text-2xl leading-relaxed mb-8 font-light">

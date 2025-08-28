@@ -31,6 +31,8 @@ import ExternalLink from "./ExternalLink";
 import Play from "./Play";
 import NextItem from "./NextItem";
 import PrevItem from "./PrevItem";
+import Instagram from "./Instagram";
+import Linkedln from "./Linkedln";
 export {
   ReactIcon,
   NextIcon,
@@ -65,4 +67,6 @@ export {
   Play,
   NextItem,
   PrevItem,
+  Instagram,
+  Linkedln,
 };
