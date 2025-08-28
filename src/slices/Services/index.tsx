@@ -200,20 +200,12 @@ const Services: FC<ServicesProps> = ({ slice }) => {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="py-24"
-      data-slice-type="services"
-      style={{
-        background:
-          "linear-gradient(135deg, #1A1B1E 0%, rgba(26, 27, 30, 0.95) 100%)",
-      }}
-    >
+    <section ref={sectionRef} className="py-24" data-slice-type="services">
       <div className="container mx-auto px-4">
         <div className="mb-16 pl-4 md:pl-8 relative z-30">
           <div className="flex items-center gap-4">
             <span
-              className="text-2xl tracking-wider"
+              className="text-2xl tracking-wider "
               style={{ color: "#8A5AFB" }}
             >
               04

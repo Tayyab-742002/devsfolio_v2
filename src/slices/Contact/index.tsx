@@ -5,8 +5,13 @@ import { SliceComponentProps } from "@prismicio/react";
 import { PrismicNextLink } from "@prismicio/next";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
-import {  toast } from "react-hot-toast";
-import { SuccessIcon, ErrorIcon, WarningIcon } from "@/components/icons/ToastIcons";
+import { toast } from "react-hot-toast";
+import {
+  SuccessIcon,
+  ErrorIcon,
+  WarningIcon,
+} from "@/components/icons/ToastIcons";
+import BrushStroke from "@/components/common/PaintedBrushStroke";
 
 /**
  * Props for `Contact`.
@@ -73,10 +78,10 @@ const Contact: FC<ContactProps> = ({ slice }) => {
     if (!validateForm()) {
       toast.error("Please fix the form errors", {
         style: {
-          background: '#14141e',
-          color: '#fff',
-          border: '1px solid #4f8fff',
-          boxShadow: '0 0 15px rgba(79, 143, 255, 0.3)',
+          background: "#14141e",
+          color: "#fff",
+          border: "1px solid #4f8fff",
+          boxShadow: "0 0 15px rgba(79, 143, 255, 0.3)",
         },
         icon: <WarningIcon />,
       });
@@ -102,10 +107,10 @@ const Contact: FC<ContactProps> = ({ slice }) => {
 
       toast.success("Message sent successfully!", {
         style: {
-          background: '#14141e',
-          color: '#fff',
-          border: '1px solid #4f8fff',
-          boxShadow: '0 0 15px rgba(79, 143, 255, 0.3)',
+          background: "#14141e",
+          color: "#fff",
+          border: "1px solid #4f8fff",
+          boxShadow: "0 0 15px rgba(79, 143, 255, 0.3)",
         },
         icon: <SuccessIcon />,
         duration: 5000,
@@ -115,10 +120,10 @@ const Contact: FC<ContactProps> = ({ slice }) => {
       console.error("Error sending email:", error);
       toast.error("Failed to send message. Please try again.", {
         style: {
-          background: '#14141e',
-          color: '#fff',
-          border: '1px solid #4f8fff',
-          boxShadow: '0 0 15px rgba(79, 143, 255, 0.3)',
+          background: "#14141e",
+          color: "#fff",
+          border: "1px solid #4f8fff",
+          boxShadow: "0 0 15px rgba(79, 143, 255, 0.3)",
         },
         icon: <ErrorIcon />,
         duration: 5000,
@@ -145,22 +150,23 @@ const Contact: FC<ContactProps> = ({ slice }) => {
       data-slice-type="contact"
     >
       {/* Section Header */}
-      <motion.div
-        className="mb-20 pl-4 md:pl-8"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
+      <div className="mb-16 pl-4 md:pl-8 relative z-30">
         <div className="flex items-center gap-4">
-          <span className="text-[#4f8fff] text-lg tracking-wider neon-text">
-            07
+          <span
+            className="text-2xl tracking-wider "
+            style={{ color: "#8A5AFB" }}
+          >
+            06
           </span>
-          <h2 className="text-2xl font-bold text-white tracking-wider">
+          <h2
+            className="text-2xl font-bold tracking-wider"
+            style={{ color: "#FFFFFF" }}
+          >
             GET IN TOUCH
           </h2>
         </div>
-        <div className="w-32 h-0.5 mt-2 bg-[#4f8fff] ml-9 neon-divider" />
-      </motion.div>
+        <BrushStroke width={280} height={25} />
+      </div>
 
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12">
         {/* Contact Information */}
