@@ -28,7 +28,7 @@ const Testimonials: FC<TestimonialsProps> = ({ slice }) => {
   };
 
   return (
-    <section className="min-h-screen py-24 relative">
+    <section className=" py-24 relative">
       {/* Section Header */}
       <div className="mb-16 pl-4 md:pl-8 relative z-30">
         <div className="flex items-center gap-4">

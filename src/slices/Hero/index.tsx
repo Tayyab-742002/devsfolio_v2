@@ -12,7 +12,7 @@ const Hero: FC<SliceComponentProps<Content.HeroSlice>> = ({ slice }) => {
   const textRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="relative lg:mt-80 flex items-center justify-center overflow-hidden">
+    <section className="relative py-24 lg:mt-80 flex items-center justify-center overflow-hidden">
       {/* 3D Scene Container */}
       
 

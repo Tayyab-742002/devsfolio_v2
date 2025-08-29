@@ -138,7 +138,7 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
 
   return (
     <section
-      className="py-16 md:py-20 lg:py-24 relative"
+      className="py-24 relative"
       data-slice-type="projects"
       id="projects"
     >
