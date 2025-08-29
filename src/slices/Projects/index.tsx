@@ -9,7 +9,7 @@ import ProjectModal from "@/components/ProjectModal";
 import BrushStroke from "@/components/common/PaintedBrushStroke";
 import { getSvg } from "@/utils/getSvg";
 import { Tooltip } from "react-tooltip";
-import { NextItem, PrevItem } from "@/components/icons";
+
 
 export type ProjectsProps = SliceComponentProps<Content.ProjectsSlice>;
 
@@ -372,36 +372,86 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
             </AnimatePresence>
           </div>
 
-          <div className="absolute bottom-[-5rem] left-0 right-0 flex items-center justify-center gap-5">
-            <button
+          <div className="flex items-center justify-center gap-25 mt-15">
+            {/* Previous Button - Hand-drawn style */}
+            <motion.button
               onClick={goToPrev}
-              className="w-8 h-8 cursor-pointer rounded-full   flex items-center justify-center hover:bg-[#252535] transition-colors"
               disabled={filteredProjects.length <= 1}
+              whileHover={{
+                scale: 1.15,
+                rotate: -5,
+                boxShadow: "0 0 25px rgba(139, 92, 246, 0.5)",
+              }}
+              whileTap={{ scale: 0.9, rotate: 5 }}
+              className="group relative w-16 h-16 flex items-center bg-primary/60 cursor-pointer justify-center transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform rotate-2"
+              style={{
+                clipPath: "polygon(10% 0%, 90% 5%, 95% 90%, 5% 95%)",
+                boxShadow:
+                  "0 8px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(139, 92, 246, 0.2)",
+              }}
             >
-              <PrevItem className="w-6 h-6" />
-            </button>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                className="group-hover:scale-125 transition-transform"
+              >
+                <path
+                  d="M12,3 Q6,8 7,10 Q8,12 12,17"
+                  stroke="url(#leftArrowRoughGradient)"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <defs>
+                  <linearGradient id="leftArrowRoughGradient">
+                    <stop offset="0%" stopColor="#FFFFFF" />
+                    <stop offset="100%" stopColor="#FFFFFF" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </motion.button>
 
-            <div className="flex items-center">
-              {filteredProjects.map((_, index) => (
-                <div key={index} className="flex items-center">
-                  {index < filteredProjects.length - 1 && (
-                    <div
-                      className={`w-6 h-[2px] mx-1 transition-colors duration-300 ${
-                        index < activeIndex ? "bg-primary" : "bg-[#252535]"
-                      }`}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <button
+            {/* Next Button - Hand-drawn style */}
+            <motion.button
               onClick={goToNext}
-              className="w-8 h-8 rounded-full cursor-pointer  flex items-center justify-center hover:bg-[#252535] transition-colors"
               disabled={filteredProjects.length <= 1}
+              whileHover={{
+                scale: 1.15,
+                rotate: 5,
+                boxShadow: "0 0 25px rgba(139, 92, 246, 0.5)",
+              }}
+              whileTap={{ scale: 0.9, rotate: -5 }}
+              className="group relative w-16 h-16 flex items-center bg-primary/60 cursor-pointer justify-center transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform -rotate-2"
+              style={{
+                clipPath: "polygon(5% 5%, 95% 0%, 90% 95%, 10% 90%)",
+                boxShadow:
+                  "0 8px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(139, 92, 246, 0.2)",
+              }}
             >
-              <NextItem className="w-6 h-6" />
-            </button>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                className="group-hover:scale-125 transition-transform"
+              >
+                <path
+                  d="M8,3 Q14,8 13,10 Q12,12 8,17"
+                  stroke="url(#rightArrowRoughGradient)"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <defs>
+                  <linearGradient id="rightArrowRoughGradient">
+                    <stop offset="0%" stopColor="#FFFFFF" />
+                    <stop offset="100%" stopColor="#FFFFFF" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </motion.button>
           </div>
         </div>
 
