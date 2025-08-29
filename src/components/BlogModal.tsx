@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { PrismicNextImage } from "@prismicio/next";
 import { Calendar, Clock, Share2, X } from "lucide-react";
 import {  ImageField } from "@prismicio/client";
@@ -89,7 +89,7 @@ const BlogModal = ({ isOpen, onClose, blog }: BlogModalProps) => {
 
           {/* Modal Container */}
           <motion.div
-            variants={modalVariants}
+            variants={modalVariants as Variants}
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -107,7 +107,7 @@ const BlogModal = ({ isOpen, onClose, blog }: BlogModalProps) => {
             <div className="flex flex-col lg:flex-row max-h-[calc(100vh-2rem)] md:max-h-[calc(100vh-3rem)]">
               {/* Left Column - Image */}
               <motion.div
-                variants={contentVariants}
+                variants={contentVariants as Variants}
                 custom={0}
                 className="relative w-full lg:w-1/2 h-[200px] sm:h-[250px] md:h-[300px] lg:h-[600px]"
               >
@@ -121,7 +121,7 @@ const BlogModal = ({ isOpen, onClose, blog }: BlogModalProps) => {
 
                 {/* Category Badge */}
                 <motion.div
-                  variants={contentVariants}
+                  variants={contentVariants as Variants}
                   custom={1}
                   className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20"
                 >
@@ -136,7 +136,7 @@ const BlogModal = ({ isOpen, onClose, blog }: BlogModalProps) => {
                 <div className="p-4 sm:p-6 lg:p-8">
                   {/* Title */}
                   <motion.h2
-                    variants={contentVariants}
+                    variants={contentVariants as Variants}
                     custom={2}
                     className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-4"
                   >
@@ -145,7 +145,7 @@ const BlogModal = ({ isOpen, onClose, blog }: BlogModalProps) => {
 
                   {/* Author Info */}
                   <motion.div
-                    variants={contentVariants}
+                    variants={contentVariants as Variants}
                     custom={3}
                     className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6 p-3 sm:p-4 rounded-xl bg-white/5 backdrop-blur-sm"
                   >
@@ -176,7 +176,7 @@ const BlogModal = ({ isOpen, onClose, blog }: BlogModalProps) => {
 
                   {/* Content */}
                   <motion.div
-                    variants={contentVariants}
+                    variants={contentVariants as Variants}
                     custom={4}
                     className="prose prose-invert prose-sm sm:prose-base lg:prose-lg max-w-none mb-6 sm:mb-8"
                   >
@@ -192,7 +192,7 @@ const BlogModal = ({ isOpen, onClose, blog }: BlogModalProps) => {
 
                   {/* Share Button */}
                   <motion.div
-                    variants={contentVariants}
+                    variants={contentVariants as Variants}
                     custom={5}
                     className="flex justify-end pt-4 sm:pt-6 border-t border-white/10"
                   >
@@ -212,7 +212,7 @@ const BlogModal = ({ isOpen, onClose, blog }: BlogModalProps) => {
                   {/* Reading Progress */}
                   {blog.reading_progress !== undefined && (
                     <motion.div
-                      variants={contentVariants}
+                      variants={contentVariants as Variants}
                       custom={6}
                       className="mt-4 sm:mt-6"
                     >

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { PrismicNextImage } from "@prismicio/next";
 import { X } from "lucide-react";
 import {
@@ -77,7 +77,7 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
 
           {/* Modal */}
           <motion.div
-            variants={modalVariants}
+            variants={modalVariants as Variants}
             initial="hidden"
             animate="visible"
             exit="exit"
