@@ -30,8 +30,12 @@ import {
   Stripe,
   Shadcn,
   Play,
+  HomeIcon,
   Instagram,
   Linkedln,
+  AboutIcon,
+  ProjectIcon,
+  ContactIcon,
 } from "@/components/icons";
 
 const techIcons: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
@@ -65,8 +69,12 @@ const techIcons: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
   stripe: Stripe,
   shadcn: Shadcn,
   play: Play,
+  home: HomeIcon,
   instagram: Instagram,
   linkedln: Linkedln,
+  about: AboutIcon,
+  projects: ProjectIcon,
+  contact: ContactIcon,
 };
 
 export function getSvg(

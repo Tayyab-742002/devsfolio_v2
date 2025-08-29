@@ -33,6 +33,10 @@ import NextItem from "./NextItem";
 import PrevItem from "./PrevItem";
 import Instagram from "./Instagram";
 import Linkedln from "./Linkedln";
+import HomeIcon from "./Home";
+import AboutIcon from "./About";
+import ProjectIcon from "./Project";
+import ContactIcon from "./Contact";
 export {
   ReactIcon,
   NextIcon,
@@ -69,4 +73,8 @@ export {
   PrevItem,
   Instagram,
   Linkedln,
+  HomeIcon,
+  AboutIcon,
+  ProjectIcon,
+  ContactIcon,
 };

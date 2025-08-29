@@ -276,7 +276,7 @@ const Contact: FC<ContactProps> = ({ slice }) => {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="relative border border-primary/30 rounded-xl p-8 w-full max-w-xl mx-auto lg:mr-0 shadow-[0_20px_50px_rgba(140,92,255,0.3)] hover:shadow-[0_20px_50px_rgba(140,92,255,0.7)]  transition-all duration-300"
+          className="relative border border-primary/30 rounded-[12px] p-8 w-full max-w-xl mx-auto lg:mr-0 shadow-[0_20px_50px_rgba(140,92,255,0.3)] hover:shadow-[0_20px_50px_rgba(140,92,255,0.7)]  transition-all duration-300"
           style={{
             animation: "float 4s cubic-bezier(0.4, 0, 0.2, 1) infinite",
           }}
@@ -292,7 +292,7 @@ const Contact: FC<ContactProps> = ({ slice }) => {
                 onChange={handleChange}
                 className={`w-full border ${
                   errors.name ? "border-red-500" : "border-primary/30"
-                } rounded-lg p-4 text-white focus:border-primary transition-colors outline-none text-base`}
+                } rounded-[12px] p-4 text-white focus:border-primary transition-colors outline-none text-base`}
                 disabled={isSubmitting}
               />
               {errors.name && (
@@ -309,7 +309,7 @@ const Contact: FC<ContactProps> = ({ slice }) => {
                 onChange={handleChange}
                 className={`w-full border ${
                   errors.email ? "border-red-500" : "border-primary/30"
-                } rounded-lg p-4 text-white focus:border-primary transition-colors outline-none text-base`}
+                } rounded-[12px] p-4 text-white focus:border-primary transition-colors outline-none text-base`}
                 disabled={isSubmitting}
               />
               {errors.email && (
@@ -328,7 +328,7 @@ const Contact: FC<ContactProps> = ({ slice }) => {
                 rows={4}
                 className={`w-full border ${
                   errors.message ? "border-red-500" : "border-primary/30"
-                } rounded-lg p-4 text-white focus:border-primary transition-colors outline-none resize-none text-base`}
+                } rounded-[12px] p-4 text-white focus:border-primary transition-colors outline-none resize-none text-base`}
                 disabled={isSubmitting}
               />
               {errors.message && (

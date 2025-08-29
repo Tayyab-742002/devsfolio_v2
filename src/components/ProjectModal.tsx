@@ -81,7 +81,7 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="relative w-full max-w-4xl max-h-[92vh] flex flex-col rounded-xl overflow-hidden bg-background backdrop-blur-2xl border border-border/40  shadow-[0_20px_50px_rgba(140,92,255,0.9)]"
+            className="relative w-full max-w-4xl max-h-[92vh] flex flex-col rounded-[14px] pb-10 overflow-hidden bg-background backdrop-blur-2xl border border-border/40  shadow-[0_20px_50px_rgba(140,92,255,0.9)]"
           >
             {/* Close Button */}
             <button
@@ -107,7 +107,7 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                         onClick={() => setIsPlaying(true)}
                         className="z-10 flex items-center gap-3 px-5 py-2 rounded-full transition cursor-pointer"
                       >
-                        <PlayIcon className="w-24 h-24" />
+                        <PlayIcon className="w-16 h-16 md:w-24 md:h-24" />
                       </button>
                     </div>
                   ) : (
