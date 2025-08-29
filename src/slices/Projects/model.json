@@ -22,7 +22,11 @@
                 "config": {
                   "label": "Category",
                   "placeholder": "Select project category",
-                  "options": ["WEB", "MOBILE", "AI"]
+                  "options": [
+                    "WEB",
+                    "MOBILE",
+                    "AI"
+                  ]
                 }
               },
               "thumbnail": {
@@ -51,21 +55,24 @@
                 "type": "Link",
                 "config": {
                   "label": "Live Link",
-                  "placeholder": "Project live URL"
+                  "placeholder": "Project live URL",
+                  "select": null
                 }
               },
               "github_link": {
                 "type": "Link",
                 "config": {
                   "label": "GitHub Link",
-                  "placeholder": "Project GitHub URL"
+                  "placeholder": "Project GitHub URL",
+                  "select": null
                 }
               },
               "demo_video": {
                 "type": "Link",
                 "config": {
                   "label": "Demo Video",
-                  "placeholder": "Video URL (YouTube/Vimeo)"
+                  "placeholder": "Video URL (YouTube/Vimeo)",
+                  "select": null
                 }
               },
               "long_description": {
@@ -76,11 +83,20 @@
                   "allowTargetBlank": true,
                   "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
                 }
+              },
+              "technologies": {
+                "type": "Text",
+                "config": {
+                  "label": "Technologies",
+                  "placeholder": ""
+                }
               }
             }
           }
         }
-      }
+      },
+      "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format",
+      "items": {}
     }
   ]
 }

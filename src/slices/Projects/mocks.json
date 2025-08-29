@@ -52,24 +52,18 @@
 								}
 							],
 							[
-								"technologies",
-								{
-									"__TYPE__": "StructuredTextContent",
-									"value": [
-										{
-											"type": "paragraph",
-											"content": {
-												"text": "Qui pariatur fugiat adipisicing."
-											}
-										}
-									]
-								}
-							],
-							[
 								"category",
 								{
 									"__TYPE__": "FieldContent",
 									"value": "sign",
+									"type": "Text"
+								}
+							],
+							[
+								"technologies",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "active",
 									"type": "Text"
 								}
 							]

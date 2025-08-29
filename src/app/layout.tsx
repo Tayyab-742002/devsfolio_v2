@@ -36,6 +36,7 @@ export default function RootLayout({
       >
         <ErrorBoundary>
           <Wrapper>{children}</Wrapper>
+
           <Toaster position="top-right" />
         </ErrorBoundary>
       </body>

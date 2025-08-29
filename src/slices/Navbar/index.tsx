@@ -3,30 +3,11 @@ import { FC, useEffect, useState } from "react";
 import { Content } from "@prismicio/client";
 import { SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
-
+import { Home } from "lucide-react";
 import { gsap } from "gsap";
 
-import {
-  Home,
-  User,
-  Mail,
-  FileText,
-  FolderKanban,
-  Settings,
-  Plus,
-} from "lucide-react";
 import { NavbarSliceDefaultPrimaryLinksItem } from "../../../prismicio-types";
-
-// Icon mapping for Lucide icons
-const iconComponents: { [key: string]: React.ElementType } = {
-  home: Home,
-  about: User,
-  contact: Mail,
-  projects: FolderKanban,
-  blogs: FileText,
-  exp: Settings,
-  services: Plus,
-};
+import { getSvg } from "@/utils/getSvg";
 
 // Define which tabs to show on mobile/tablet
 const mobileTabs = ["home", "about", "projects", "contact"];
@@ -232,8 +213,8 @@ const Navbar: FC<NavbarProps> = ({ slice }) => {
 
   const getIcon = (link: { url: { text: string } }) => {
     const linkText = link?.url?.text?.trim().toLowerCase() || "home";
-    const Icon = iconComponents[linkText] || Home;
-    return <Icon className="w-4 h-4 sm:w-6 sm:h-6" strokeWidth={1.5} />;
+    const Icon = getSvg(linkText) || Home;
+    return <Icon className="w-6 h-6" />;
   };
 
   // Only render the mobile tab bar if the component has loaded

@@ -2,41 +2,19 @@
 import { FC, useRef, useEffect, useState } from "react";
 import { Content, ImageField } from "@prismicio/client";
 import { SliceComponentProps } from "@prismicio/react";
-import { PrismicNextImage } from "@prismicio/next";
-import { motion } from "framer-motion";
 
 import gsap from "gsap";
+import BrushStroke from "@/components/common/PaintedBrushStroke";
 
 export type ServicesProps = SliceComponentProps<Content.ServicesSlice>;
-
-interface ServiceShapeProps {
-  isHovered: boolean;
-
-  iconType: string;
-}
-
-interface Icon3DProps {
-  iconType: string;
-  isHovered: boolean;
-}
 
 interface ServiceCardProps {
   title: string;
   description: string;
   icon: ImageField | null;
-  iconType: string;
-  index: number;
 }
 
-
-
-const ServiceCard: FC<ServiceCardProps> = ({
-  title,
-  description,
-  icon,
-  iconType,
-  index,
-}) => {
+const ServiceCard: FC<ServiceCardProps> = ({ title, description }) => {
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -44,10 +22,7 @@ const ServiceCard: FC<ServiceCardProps> = ({
     setIsHovered(hovering);
     if (cardRef.current) {
       gsap.to(cardRef.current, {
-        y: hovering ? -10 : 0,
-        boxShadow: hovering
-          ? "0 20px 25px -5px rgba(79, 143, 255, 0.1)"
-          : "0 4px 6px -1px rgba(79, 143, 255, 0.1)",
+        y: hovering ? -5 : 0,
         duration: 0.3,
         ease: "power2.out",
       });
@@ -55,52 +30,139 @@ const ServiceCard: FC<ServiceCardProps> = ({
   };
 
   return (
-    <motion.div
+    <div
       ref={cardRef}
-      className="w-[280px] h-[320px] mt-10 lg:mt-0 lg:ml-0 md:ml-5    bg-[#14141e] rounded-xl border border-[#252535] flex flex-col items-center p-6  relative"
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.2 }}
+      className="w-[320px] h-[400px] mt-10 lg:mt-0 relative group cursor-pointer"
       onMouseEnter={() => handleHover(true)}
       onMouseLeave={() => handleHover(false)}
     >
-      {/* Icon Container */}
-      <div className="w-24 h-24 bg-[#0a0a12] rounded-full flex items-center justify-center mb-6">
-        {icon ? (
-          <div className="w-full h-full relative">
-            <PrismicNextImage field={icon} fill className="object-contain" />
+      {/* Main card with handmade paper effect */}
+      <div
+        className="relative w-full h-full p-8 overflow-hidden"
+        style={{
+          background: "#1A1B1E",
+          borderRadius: "12px 15px 14px 16px",
+          boxShadow: `
+            0 8px 32px rgba(140, 92, 255, 0.4),
+          `,
+          transform: "rotate(-0.5deg)",
+          border: "1px solid rgba(138, 90, 251, 0.2)",
+        }}
+      >
+        {/* Paper grain texture overlay */}
+
+        {/* Icon section */}
+        <div className="flex justify-center mb-8">
+          <div className="relative">
+            {/* Hand-drawn circle background */}
+            <svg
+              width="100"
+              height="100"
+              viewBox="0 0 100 100"
+              className="absolute inset-0 -rotate-3"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="42"
+                fill="none"
+                stroke="#8A5AFB"
+                strokeWidth="3"
+                strokeLinecap="round"
+                opacity="0.6"
+                style={{
+                  strokeDasharray: "8,4,2,4",
+                  filter: "url(#roughCircle)",
+                }}
+              />
+              <defs>
+                <filter id="roughCircle">
+                  <feTurbulence
+                    baseFrequency="0.8"
+                    numOctaves="3"
+                    result="turbulence"
+                  />
+                  <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="turbulence"
+                    scale="2"
+                  />
+                </filter>
+              </defs>
+            </svg>
+
+            {/* Icon container */}
+            <div className="relative w-20 h-20 flex items-center justify-center"></div>
           </div>
-        ) : (
-          null
-        )}
+        </div>
+
+        {/* Title with handwritten underline */}
+        <div className="mb-6 text-center">
+          <h3
+            className="text-2xl text-primary font-bold mb-2 relative inline-block"
+            style={{
+              transform: "rotate(0.3deg)",
+            }}
+          >
+            {title}{" "}
+          </h3>
+        </div>
+
+        {/* Description */}
+        <p
+          className="text-center text-base leading-relaxed"
+          style={{
+            color: "rgba(255, 255, 255, 0.8)",
+            transform: "rotate(-0.2deg)",
+            lineHeight: "1.7",
+          }}
+        >
+          {description}
+        </p>
+
+        {/* Bottom decorative element */}
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
+          <svg width="60" height="8" viewBox="0 0 60 8">
+            <circle cx="30" cy="4" r="3" fill="#8A5AFB" opacity="0.6" />
+            <circle cx="18" cy="4" r="2" fill="#8A5AFB" opacity="0.4" />
+            <circle cx="42" cy="4" r="2" fill="#8A5AFB" opacity="0.4" />
+            <circle cx="10" cy="4" r="1.5" fill="#8A5AFB" opacity="0.3" />
+            <circle cx="50" cy="4" r="1.5" fill="#8A5AFB" opacity="0.3" />
+          </svg>
+        </div>
+
+        {/* Tape effect at corners */}
+        <div
+          className="absolute -top-1 right-8 w-12 h-6 opacity-60"
+          style={{
+            background:
+              "linear-gradient(145deg, rgba(138, 90, 251, 0.1), rgba(138, 90, 251, 0.05))",
+            transform: "rotate(15deg)",
+            borderRadius: "2px",
+            border: "1px solid rgba(138, 90, 251, 0.3)",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
+          }}
+        />
       </div>
 
-      {/* Content */}
-      <h3 className="text-white text-xl font-bold mb-3">{title}</h3>
-      <p className="text-gray-400 text-center text-sm leading-relaxed">
-        {description}
-      </p>
-
-      {/* Indicator Dot */}
+      {/* Hover shadow */}
       <div
-        className={`absolute bottom-6 w-4 h-4 border border-[#4f8fff] rounded-full transition-all duration-300 ${
-          isHovered ? "bg-[#4f8fff]" : "border border-[#4f8fff] "
+        className={`absolute inset-0 rounded-xl transition-all duration-300 -z-10 ${
+          isHovered ? "opacity-100" : "opacity-0"
         }`}
+        style={{
+          background:
+            "linear-gradient(145deg, rgba(138, 90, 251, 0.08), rgba(138, 90, 251, 0.12))",
+          filter: "blur(20px)",
+          transform: "scale(1.1) translateY(10px)",
+        }}
       />
-    </motion.div>
+    </div>
   );
 };
 
 const Services: FC<ServicesProps> = ({ slice }) => {
   const sectionRef = useRef<HTMLElement>(null);
-
-  const getServiceType = (title: string): string => {
-    const lowerTitle = title.toLowerCase();
-    if (lowerTitle.includes("web")) return "web";
-    if (lowerTitle.includes("mobile")) return "mobile";
-    if (lowerTitle.includes("ai")) return "ai";
-    return "web";
-  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -117,9 +179,9 @@ const Services: FC<ServicesProps> = ({ slice }) => {
             .from(
               ".services-cards > *",
               {
-                y: 50,
+                y: 40,
                 opacity: 0,
-                duration: 0.6,
+                duration: 0.7,
                 stagger: 0.2,
                 ease: "power3.out",
               },
@@ -138,43 +200,34 @@ const Services: FC<ServicesProps> = ({ slice }) => {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="py-24"
-      data-slice-type="services"
-    >
+    <section ref={sectionRef} className="py-24" data-slice-type="services">
       <div className="container mx-auto px-4">
-        <motion.div
-          className="mb-10  pl-4 md:pl-8 relative z-30"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="flex items-center gap-4 ">
-            <span className="text-[#4f8fff] text-lg tracking-wider neon-text">
+        <div className="mb-16 pl-4 md:pl-8 relative z-30">
+          <div className="flex items-center gap-4">
+            <span
+              className="text-2xl tracking-wider "
+              style={{ color: "#8A5AFB" }}
+            >
               04
             </span>
-            <h2 className="text-2xl  font-bold text-white tracking-wider ">
+            <h2
+              className="text-2xl font-bold tracking-wider"
+              style={{ color: "#FFFFFF" }}
+            >
               SERVICES
             </h2>
           </div>
-          <div className="w-32 h-0.5 mt-2 bg-[#4f8fff]  ml-9 neon-divider" />
-        </motion.div>
+          <BrushStroke width={210} height={25} />
+        </div>
 
-        <div className="services-cards  flex flex-wrap  lg:flex-nowrap  justify-center items-center">
+        <div className="services-cards flex flex-wrap lg:flex-nowrap justify-center items-start gap-8 lg:gap-12">
           {slice.primary.services?.map((service, index) => (
-            <div key={index} className="flex items-center mx-auto">
-              <ServiceCard
-                title={service.title || ""}
-                description={service.description || ""}
-                icon={service.icon}
-                iconType={getServiceType(service.title || "")}
-                index={index}
-              />
-              {index < slice.primary.services.length - 1 && (
-                <div className="hidden lg:block w-8 h-[1px] bg-[#4f8fff] mx-4 neon-divider" />
-              )}
-            </div>
+            <ServiceCard
+              key={index}
+              title={service.title || ""}
+              description={service.description || ""}
+              icon={service.icon}
+            />
           ))}
         </div>
       </div>

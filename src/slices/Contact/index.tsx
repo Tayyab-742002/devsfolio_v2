@@ -5,8 +5,14 @@ import { SliceComponentProps } from "@prismicio/react";
 import { PrismicNextLink } from "@prismicio/next";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
-import {  toast } from "react-hot-toast";
-import { SuccessIcon, ErrorIcon, WarningIcon } from "@/components/icons/ToastIcons";
+import { toast } from "react-hot-toast";
+import {
+  SuccessIcon,
+  ErrorIcon,
+  WarningIcon,
+} from "@/components/icons/ToastIcons";
+import BrushStroke from "@/components/common/PaintedBrushStroke";
+import { getSvg } from "@/utils/getSvg";
 
 /**
  * Props for `Contact`.
@@ -37,6 +43,9 @@ const Contact: FC<ContactProps> = ({ slice }) => {
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const GithubIcon = getSvg("github");
+  const LinkedinIcon = getSvg("linkedln");
+  const InstagramIcon = getSvg("instagram");
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -73,10 +82,10 @@ const Contact: FC<ContactProps> = ({ slice }) => {
     if (!validateForm()) {
       toast.error("Please fix the form errors", {
         style: {
-          background: '#14141e',
-          color: '#fff',
-          border: '1px solid #4f8fff',
-          boxShadow: '0 0 15px rgba(79, 143, 255, 0.3)',
+          background: "#14141e",
+          color: "#fff",
+          border: "1px solid #4f8fff",
+          boxShadow: "0 0 15px rgba(79, 143, 255, 0.3)",
         },
         icon: <WarningIcon />,
       });
@@ -102,10 +111,10 @@ const Contact: FC<ContactProps> = ({ slice }) => {
 
       toast.success("Message sent successfully!", {
         style: {
-          background: '#14141e',
-          color: '#fff',
-          border: '1px solid #4f8fff',
-          boxShadow: '0 0 15px rgba(79, 143, 255, 0.3)',
+          background: "#14141e",
+          color: "#fff",
+          border: "1px solid #4f8fff",
+          boxShadow: "0 0 15px rgba(79, 143, 255, 0.3)",
         },
         icon: <SuccessIcon />,
         duration: 5000,
@@ -115,10 +124,10 @@ const Contact: FC<ContactProps> = ({ slice }) => {
       console.error("Error sending email:", error);
       toast.error("Failed to send message. Please try again.", {
         style: {
-          background: '#14141e',
-          color: '#fff',
-          border: '1px solid #4f8fff',
-          boxShadow: '0 0 15px rgba(79, 143, 255, 0.3)',
+          background: "#14141e",
+          color: "#fff",
+          border: "1px solid #4f8fff",
+          boxShadow: "0 0 15px rgba(79, 143, 255, 0.3)",
         },
         icon: <ErrorIcon />,
         duration: 5000,
@@ -145,22 +154,23 @@ const Contact: FC<ContactProps> = ({ slice }) => {
       data-slice-type="contact"
     >
       {/* Section Header */}
-      <motion.div
-        className="mb-20 pl-4 md:pl-8"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
+      <div className="mb-16 pl-4 md:pl-8 relative z-30">
         <div className="flex items-center gap-4">
-          <span className="text-[#4f8fff] text-lg tracking-wider neon-text">
-            07
+          <span
+            className="text-2xl tracking-wider "
+            style={{ color: "#8A5AFB" }}
+          >
+            06
           </span>
-          <h2 className="text-2xl font-bold text-white tracking-wider">
+          <h2
+            className="text-2xl font-bold tracking-wider"
+            style={{ color: "#FFFFFF" }}
+          >
             GET IN TOUCH
           </h2>
         </div>
-        <div className="w-32 h-0.5 mt-2 bg-[#4f8fff] ml-9 neon-divider" />
-      </motion.div>
+        <BrushStroke width={280} height={25} />
+      </div>
 
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12">
         {/* Contact Information */}
@@ -180,8 +190,8 @@ const Contact: FC<ContactProps> = ({ slice }) => {
                 whileHover={{ x: 10 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="w-10 h-10 rounded-full bg-[#14141e] border border-[#4f8fff] flex items-center justify-center">
-                  <span className="text-[#4f8fff]">@</span>
+                <div className="w-10 h-10 rounded-full  border border-primary flex items-center justify-center">
+                  <span className="text-primary">@</span>
                 </div>
                 <span className="text-white">{slice.primary.email}</span>
               </motion.div>
@@ -191,8 +201,8 @@ const Contact: FC<ContactProps> = ({ slice }) => {
                 whileHover={{ x: 10 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="w-10 h-10 rounded-full bg-[#14141e] border border-[#4f8fff] flex items-center justify-center">
-                  <span className="text-[#4f8fff]">P</span>
+                <div className="w-10 h-10 rounded-full  border border-primary flex items-center justify-center">
+                  <span className="text-primary">P</span>
                 </div>
                 <span className="text-white">{slice.primary.phone_number}</span>
               </motion.div>
@@ -202,8 +212,8 @@ const Contact: FC<ContactProps> = ({ slice }) => {
                 whileHover={{ x: 10 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="w-10 h-10 rounded-full bg-[#14141e] border border-[#4f8fff] flex items-center justify-center">
-                  <span className="text-[#4f8fff]">L</span>
+                <div className="w-10 h-10 rounded-full  border border-primary flex items-center justify-center">
+                  <span className="text-primary">L</span>
                 </div>
                 <span className="text-white">{slice.primary.address}</span>
               </motion.div>
@@ -223,23 +233,9 @@ const Contact: FC<ContactProps> = ({ slice }) => {
                     >
                       <PrismicNextLink
                         field={item.linkedln}
-                        className="w-8 h-8 rounded-full bg-[#14141e] border border-[#4f8fff] flex items-center justify-center text-[#4f8fff] hover:bg-[#4f8fff] hover:text-white transition-colors"
+                        className="w-8 h-8 rounded-full  border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                          <rect x="2" y="9" width="4" height="12" />
-                          <circle cx="4" cy="4" r="2" />
-                        </svg>
+                        {LinkedinIcon && <LinkedinIcon className="w-4 h-4" />}
                       </PrismicNextLink>
                     </motion.div>
                   )}
@@ -250,21 +246,9 @@ const Contact: FC<ContactProps> = ({ slice }) => {
                     >
                       <PrismicNextLink
                         field={item.github}
-                        className="w-8 h-8 rounded-full bg-[#14141e] border border-[#4f8fff] flex items-center justify-center text-[#4f8fff] hover:bg-[#4f8fff] hover:text-white transition-colors"
+                        className="w-8 h-8 rounded-full  border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                        </svg>
+                        {GithubIcon && <GithubIcon className="w-4 h-4" />}
                       </PrismicNextLink>
                     </motion.div>
                   )}
@@ -275,30 +259,9 @@ const Contact: FC<ContactProps> = ({ slice }) => {
                     >
                       <PrismicNextLink
                         field={item.instagram}
-                        className="w-8 h-8 rounded-full bg-[#14141e] border border-[#4f8fff] flex items-center justify-center text-[#4f8fff] hover:bg-[#4f8fff] hover:text-white transition-colors"
+                        className="w-8 h-8 rounded-full  border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <rect
-                            x="2"
-                            y="2"
-                            width="20"
-                            height="20"
-                            rx="5"
-                            ry="5"
-                          />
-                          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                        </svg>
+                        {InstagramIcon && <InstagramIcon className="w-4 h-4" />}
                       </PrismicNextLink>
                     </motion.div>
                   )}
@@ -313,15 +276,9 @@ const Contact: FC<ContactProps> = ({ slice }) => {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="relative bg-[#14141e]  border border-[#252535] rounded-xl p-8 w-full max-w-xl mx-auto lg:mr-0"
+          className="relative border border-primary/30 rounded-[12px] p-8 w-full max-w-xl mx-auto lg:mr-0 shadow-[0_20px_50px_rgba(140,92,255,0.3)] hover:shadow-[0_20px_50px_rgba(140,92,255,0.7)]  transition-all duration-300"
           style={{
             animation: "float 4s cubic-bezier(0.4, 0, 0.2, 1) infinite",
-            boxShadow: `
-              0 0 15px rgba(79, 143, 255, 0.07),
-              0 0 30px rgba(79, 143, 255, 0.03),
-              0 0 45px rgba(79, 143, 255, 0.015),
-              inset 0 0 15px rgba(79, 143, 255, 0.02)
-            `,
           }}
         >
           <h3 className="text-white text-2xl mb-8">Send Me a Message</h3>
@@ -333,9 +290,9 @@ const Contact: FC<ContactProps> = ({ slice }) => {
                 placeholder="Your Name"
                 value={formData.name}
                 onChange={handleChange}
-                className={`w-full bg-[#14141e] border ${
-                  errors.name ? "border-red-500" : "border-[#252535]"
-                } rounded-lg p-4 text-white focus:border-[#4f8fff] transition-colors outline-none text-base`}
+                className={`w-full border ${
+                  errors.name ? "border-red-500" : "border-primary/30"
+                } rounded-[12px] p-4 text-white focus:border-primary transition-colors outline-none text-base`}
                 disabled={isSubmitting}
               />
               {errors.name && (
@@ -350,9 +307,9 @@ const Contact: FC<ContactProps> = ({ slice }) => {
                 placeholder="Your Email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full bg-[#14141e] border ${
-                  errors.email ? "border-red-500" : "border-[#252535]"
-                } rounded-lg p-4 text-white focus:border-[#4f8fff] transition-colors outline-none text-base`}
+                className={`w-full border ${
+                  errors.email ? "border-red-500" : "border-primary/30"
+                } rounded-[12px] p-4 text-white focus:border-primary transition-colors outline-none text-base`}
                 disabled={isSubmitting}
               />
               {errors.email && (
@@ -369,9 +326,9 @@ const Contact: FC<ContactProps> = ({ slice }) => {
                 value={formData.message}
                 onChange={handleChange}
                 rows={4}
-                className={`w-full bg-[#14141e] border ${
-                  errors.message ? "border-red-500" : "border-[#252535]"
-                } rounded-lg p-4 text-white focus:border-[#4f8fff] transition-colors outline-none resize-none text-base`}
+                className={`w-full border ${
+                  errors.message ? "border-red-500" : "border-primary/30"
+                } rounded-[12px] p-4 text-white focus:border-primary transition-colors outline-none resize-none text-base`}
                 disabled={isSubmitting}
               />
               {errors.message && (
@@ -389,36 +346,11 @@ const Contact: FC<ContactProps> = ({ slice }) => {
                 }}
                 type="submit"
                 whileTap={{ scale: 0.95 }}
-                className="button-shine bg-[#4f8fff] text-white px-6 py-2.5 rounded-lg flex items-center gap-2 hover:bg-[#4f8fff]/90 transition-all duration-300 text-sm font-medium relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
+                className="button-shine bg-primary text-white px-6 py-2.5 rounded-lg flex items-center cursor-pointer gap-2 hover:bg-primary/90 transition-all duration-300 text-sm font-medium relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isSubmitting}
               >
                 <span className="relative z-10 flex items-center gap-2">
                   {isSubmitting ? "Sending..." : "Send Message"}
-                  {!isSubmitting && (
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="transform transition-transform duration-300 group-hover:translate-x-1"
-                    >
-                      <path
-                        d="M13 3L22 12L13 21"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M2 12H22"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  )}
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-[#4f8fff]/0 via-white/20 to-[#4f8fff]/0 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
               </motion.button>
@@ -449,7 +381,7 @@ const Contact: FC<ContactProps> = ({ slice }) => {
         /* Add a subtle glow effect to the form inputs on focus */
         input:focus,
         textarea:focus {
-          box-shadow: 0 0 15px rgba(79, 143, 255, 0.15);
+          box-shadow: 0 0 15px rgba(140, 92, 255, 0.3);
         }
       `}</style>
     </section>

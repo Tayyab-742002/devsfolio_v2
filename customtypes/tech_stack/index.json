@@ -1,6 +1,9 @@
 {
   "format": "custom",
   "id": "tech_stack",
+  "label": "Tech Stack",
+  "repeatable": true,
+  "status": true,
   "json": {
     "Main": {
       "uid": {
@@ -8,10 +11,23 @@
         "config": {
           "label": "UID"
         }
+      },
+      "tech": {
+        "type": "Group",
+        "config": {
+          "label": "tech",
+          "repeat": true,
+          "fields": {
+            "title": {
+              "type": "Text",
+              "config": {
+                "label": "title",
+                "placeholder": ""
+              }
+            }
+          }
+        }
       }
     }
-  },
-  "label": "Tech Stack",
-  "repeatable": true,
-  "status": true
+  }
 }

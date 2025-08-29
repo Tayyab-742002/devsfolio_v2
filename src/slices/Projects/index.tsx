@@ -1,66 +1,60 @@
 "use client";
 import { FC, useEffect, useRef, useState } from "react";
-import { Content } from "@prismicio/client";
+import { Content, asLink } from "@prismicio/client";
 import { SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage } from "@prismicio/next";
 import { motion, AnimatePresence } from "framer-motion";
-import gsap from "gsap";
 
-import { Github, Globe } from "lucide-react";
 import ProjectModal from "@/components/ProjectModal";
+import BrushStroke from "@/components/common/PaintedBrushStroke";
+import { getSvg } from "@/utils/getSvg";
+import { Tooltip } from "react-tooltip";
 
-/**
- * Props for `Projects`.
- */
+
 export type ProjectsProps = SliceComponentProps<Content.ProjectsSlice>;
 
-/**
- * Component for "Projects" Slices.
- */
 const Projects: FC<ProjectsProps> = ({ slice }) => {
-  const [activeFilter, setActiveFilter] = useState("ALL");
+  const GithubIconComponent = getSvg("github");
+  const LinkIconComponent = getSvg("link");
+
+  const filters = ["ALL", "WEB", "MOBILE", "AI"] as const;
+  type FilterType = (typeof filters)[number];
+
+  type PrismicProjectItem = Content.ProjectsSliceDefaultPrimaryProjectsItem;
+  type TechItem = { text: string };
+  interface UIProject {
+    category: string;
+    thumbnail: PrismicProjectItem["thumbnail"];
+    title: string;
+    description: string;
+    live_link: PrismicProjectItem["live_link"];
+    github_link: PrismicProjectItem["github_link"];
+    demo_video?: { url: string };
+    long_description: PrismicProjectItem["long_description"];
+    technologies: TechItem[];
+  }
+
+  const [activeFilter, setActiveFilter] = useState<FilterType>("ALL");
   const [activeIndex, setActiveIndex] = useState(0);
-  const [filteredProjects, setFilteredProjects] = useState<any[]>([]);
+  const [filteredProjects, setFilteredProjects] = useState<UIProject[]>([]);
   const [touchStart, setTouchStart] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [selectedProject, setSelectedProject] = useState<UIProject | null>(
+    null
+  );
 
   const carouselRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const webglRef = useRef<HTMLDivElement>(null);
-  function extractTechnologies(project: any) {
-    if (!project.technologies || !Array.isArray(project.technologies)) {
-      return [];
-    }
 
-    // Find the first paragraph that contains the technologies text
-    const techParagraph = project.technologies.find(
-      (item: any) => item.type === "paragraph"
-    );
-    if (!techParagraph || !techParagraph.text) {
-      return [];
-    }
-
-    // Split the text by '|' and trim each technology
-    return techParagraph.text.split("|").map((tech: any) => tech.trim());
-  }
-
-  const filters = ["ALL", "WEB", "MOBILE", "AI"];
-
-  // Add this useEffect for mobile detection
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
     checkMobile();
     window.addEventListener("resize", checkMobile);
-
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Process projects data and handle technologies properly
   useEffect(() => {
     if (!slice.primary.projects) {
       setFilteredProjects([]);
@@ -68,41 +62,33 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
     }
 
     const processProjects = () => {
-      return (slice.primary.projects || []).map((project: any) => {
-        // Handle technologies - assuming it could be a string like "React | Node | OpenAI"
-        let techArray = [];
-
-        if (project.technologies) {
-          if (typeof project.technologies === "string") {
-            // Split by pipe or comma and create array of objects
-            techArray = project.technologies
-              .split(/\s*[\|,]\s*/)
-              .map((tech: string) => ({
-                text: tech.trim(),
-              }));
-          } else if (Array.isArray(project.technologies)) {
-            // Ensure each item has a text property
-            techArray = project.technologies.map((tech: any) => {
-              if (typeof tech === "string") {
-                return { text: tech };
-              } else if (tech && tech.text) {
-                return tech;
-              }
-              return { text: String(tech) };
-            });
-          }
+      const projectsRaw = slice.primary.projects ?? [];
+      return projectsRaw.map((project) => {
+        const p = project as unknown as PrismicProjectItem;
+        const techArray: TechItem[] = [];
+        if (p.technologies && typeof p.technologies === "string") {
+          p.technologies
+            .split(/\s*[\|,]\s*/)
+            .map((tech) => tech.trim())
+            .filter(Boolean)
+            .forEach((tech) => techArray.push({ text: tech }));
         }
-
+        const demoUrl = asLink(p.demo_video);
         return {
-          ...project,
+          category: p.category || "WEB",
+          thumbnail: p.thumbnail,
+          title: p.title || "",
+          description: p.description || "",
+          live_link: p.live_link,
+          github_link: p.github_link,
+          demo_video: demoUrl ? { url: demoUrl } : undefined,
+          long_description: p.long_description,
           technologies: techArray,
-          category: project.category || "WEB", // Default to WEB if no category is set
-        };
+        } satisfies UIProject;
       });
     };
 
     const processedProjects = processProjects();
-
     if (activeFilter === "ALL") {
       setFilteredProjects(processedProjects);
     } else {
@@ -112,43 +98,9 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
       );
       setFilteredProjects(filtered);
     }
-
-    // Reset to first card when changing filters
     setActiveIndex(0);
   }, [activeFilter, slice.primary.projects]);
 
-
-  // GSAP animations for card hover effects
-  useEffect(() => {
-    if (cardRefs.current.length > 0) {
-      const activeCard = cardRefs.current[1]; // Center card
-      if (activeCard) {
-        // Create hover animation with GSAP
-        activeCard.addEventListener("mouseenter", () => {
-          gsap.to(activeCard, {
-            duration: 0.4,
-            y: -10,
-            scale: 1.05,
-            boxShadow:
-              "0 20px 25px -5px rgba(79, 143, 255, 0.1), 0 10px 10px -5px rgba(79, 143, 255, 0.04)",
-            ease: "power2.out",
-          });
-        });
-
-        activeCard.addEventListener("mouseleave", () => {
-          gsap.to(activeCard, {
-            duration: 0.4,
-            y: 0,
-            scale: 1,
-            boxShadow: "none",
-            ease: "power2.out",
-          });
-        });
-      }
-    }
-  }, [filteredProjects, activeIndex]);
-
-  // Navigation functions
   const goToNext = () => {
     if (filteredProjects.length <= 1) return;
     setActiveIndex((prevIndex) => (prevIndex + 1) % filteredProjects.length);
@@ -161,7 +113,6 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
     );
   };
 
-  // Touch handlers
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.touches[0].clientX);
     setIsSwiping(true);
@@ -171,7 +122,6 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
     if (!isSwiping) return;
     const touchEnd = e.touches[0].clientX;
     const diff = touchStart - touchEnd;
-
     if (Math.abs(diff) > 50) {
       if (diff > 0) {
         goToNext();
@@ -193,54 +143,34 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
       id="projects"
     >
       <div className="container mx-auto px-4">
-        {/* Section Header with Animation */}
-        <motion.div
-          className="mb-10  pl-4 md:pl-8 relative z-30"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="flex items-center gap-4 ">
-            <span className="text-[#4f8fff] text-lg tracking-wider neon-text">
-              03
-            </span>
-            <h2 className="text-2xl  font-bold text-white tracking-wider ">
+        <div className="mb-10 pl-4 md:pl-8 relative z-30">
+          <div className="flex items-center gap-4">
+            <span className="text-primary text-2xl tracking-wider">03</span>
+            <h2 className="text-2xl font-bold text-white tracking-wider">
               PROJECTS
             </h2>
           </div>
-          <div className="w-32 h-0.5 mt-2 bg-[#4f8fff]  ml-9 neon-divider" />
-        </motion.div>
+          <BrushStroke width={210} height={25} />
+        </div>
 
-        {/* Filter System with Animation */}
-        <motion.div
-          className="flex justify-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        <div className="flex justify-center mb-12">
           <div className="flex space-x-4 flex-wrap justify-center">
-            {filters.map((filter, index) => (
-              <motion.button
+            {filters.map((filter) => (
+              <button
                 key={filter}
-                className={`rounded-full text-xs px-4 py-0.5 lg:px-4 lg:py-1 lg:text-sm  mb-2 cursor-pointer ${
+                className={`rounded-full text-xs px-4 py-0.5 lg:px-4 lg:py-1 lg:text-sm mb-2 cursor-pointer transition-all duration-200 hover:scale-105 ${
                   activeFilter === filter
-                    ? "bg-[#4f8fff] text-white"
-                    : "bg-[#14141e] border border-[#4f8fff] text-white"
+                    ? "bg-primary text-white"
+                    : "border border-border text-white"
                 }`}
                 onClick={() => setActiveFilter(filter)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
               >
                 {filter}
-              </motion.button>
+              </button>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        {/* Carousel Container */}
         <div className="relative mx-auto w-[300px] md:max-w-4xl h-[420px] mb-12">
           <div
             ref={carouselRef}
@@ -251,8 +181,6 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
           >
             <AnimatePresence initial={false} mode="popLayout">
               {filteredProjects.map((project, index) => {
-                console.log("Project : ", project);
-
                 const isActive = index === activeIndex;
                 const position =
                   index === activeIndex
@@ -267,7 +195,6 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
                           ? "far-left"
                           : "far-right";
 
-                // Calculate positions in pixels
                 const xPosition = {
                   "far-left": isMobile ? "-85px" : "-450px",
                   left: isMobile ? "-60px" : "-220px",
@@ -278,17 +205,17 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
 
                 const opacity = {
                   "far-left": 0,
-                  left: 0.4, // Reduced from 0.6
+                  left: 0.4,
                   center: 1,
-                  right: 0.4, // Reduced from 0.6
+                  right: 0.4,
                   "far-right": 0,
                 }[position];
 
                 const scale = {
                   "far-left": 0.7,
-                  left: 0.8, // Reduced from 0.85
+                  left: 0.8,
                   center: 1,
-                  right: 0.8, // Reduced from 0.85
+                  right: 0.8,
                   "far-right": 0.7,
                 }[position];
 
@@ -298,7 +225,7 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
                     className="absolute top-0 left-1/2 -translate-x-1/2"
                     style={{
                       width: "300px",
-                      cursor: isActive ? "pointer" : "pointer",
+                      cursor: "pointer",
                       pointerEvents: ["left", "center", "right"].includes(
                         position
                       )
@@ -340,52 +267,30 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
                           ? 25
                           : position === "right"
                             ? -25
-                            : 0, // Increased rotation
-                      translateZ: position === "center" ? 0 : -100, // Added depth
+                            : 0,
+                      translateZ: position === "center" ? 0 : -100,
                     }}
                     transition={{
                       type: "spring",
-                      stiffness: 300, // Reduced from 350 for smoother motion
-                      damping: 35, // Increased from 30 for more stability
-                      mass: 1, // Increased from 0.8 for more natural feel
-                      opacity: {
-                        duration: 0.5, // Increased from 0.4
-                        ease: "easeInOut",
-                      },
-                      scale: {
-                        duration: 0.5, // Increased from 0.4
-                        ease: "easeInOut",
-                      },
-                      rotateY: {
-                        duration: 0.7, // Added specific duration for rotation
-                        ease: "easeInOut",
-                      },
+                      stiffness: 300,
+                      damping: 35,
+                      mass: 1,
                     }}
                     whileHover={{
                       scale: isActive ? 1.05 : scale,
-                      transition: {
-                        duration: 0.3, // Increased from 0.2
-                        ease: "easeOut",
-                      },
+                      transition: { duration: 0.3, ease: "easeOut" },
                     }}
                   >
-                    <motion.div
-                      className={`bg-[#14141e] border border-[#252535] rounded-xl p-4 overflow-hidden transition-all duration-300 w-[300px] h-[400px] ${
-                        isActive ? "border-[#4f8fff]/30" : ""
+                    <div
+                      className={`bg-background card-3d border border-border/40 rounded-[10px] p-4 overflow-hidden transition-all duration-300 w-[300px] h-[400px] ${
+                        isActive ? "border-border/40 " : ""
                       }`}
-                      animate={{
-                        boxShadow: isActive
-                          ? "0 8px 32px rgba(79, 143, 255, 0.15)"
-                          : "none",
-                      }}
                     >
-                      {/* Project Image */}
-                      <div className="bg-[#252535] rounded-lg h-48 mb-4 overflow-hidden relative">
+                      <div className="rounded-[12px] h-48 mb-4 overflow-hidden relative">
                         {project.thumbnail ? (
                           <PrismicNextImage
                             field={project.thumbnail}
                             className="w-full h-full object-cover"
-                            alt={project.title || "Project image"}
                           />
                         ) : (
                           <div className="flex items-center justify-center h-full">
@@ -394,35 +299,38 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
                         )}
                       </div>
 
-                      {/* Project Content */}
                       <div className="flex flex-col h-[calc(100%-13rem)]">
                         <div className="flex items-center justify-between mb-2">
                           <h3 className="text-white text-lg font-semibold truncate pr-2">
                             {project.title}
                           </h3>
-                          <div className="flex gap-1">
+                          <div className="flex">
                             {project.live_link &&
                               project.live_link.link_type !== "Any" && (
                                 <a
-                                  href={project.live_link.url || ""}
+                                  href={asLink(project.live_link) || ""}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   onClick={(e) => e.stopPropagation()}
-                                  className="p-2 rounded-lg bg-[#252535] hover:bg-[#252535]/90 transition-colors"
+                                  className="p-2 rounded-lg text-blue-400 hover:text-blue-300 transition-colors"
                                 >
-                                  <Globe className="w-4 h-4 text-[#4f8fff]" />
+                                  {LinkIconComponent && (
+                                    <LinkIconComponent className="w-4 h-4" />
+                                  )}
                                 </a>
                               )}
                             {project.github_link &&
                               project.github_link.link_type !== "Any" && (
                                 <a
-                                  href={project.github_link.url || ""}
+                                  href={asLink(project.github_link) || ""}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   onClick={(e) => e.stopPropagation()}
-                                  className="p-2 rounded-lg bg-[#252535] hover:bg-[#252535]/90 transition-colors"
+                                  className="p-2 rounded-lg hover:text-gray-300 transition-colors"
                                 >
-                                  <Github className="w-4 h-4 text-[#4f8fff]" />
+                                  {GithubIconComponent && (
+                                    <GithubIconComponent className="w-4 h-4" />
+                                  )}
                                 </a>
                               )}
                           </div>
@@ -431,88 +339,122 @@ const Projects: FC<ProjectsProps> = ({ slice }) => {
                           {project.description}
                         </p>
 
-                        {/* Technologies */}
+                        {/* Technologies - beautified */}
                         <div className="flex flex-wrap gap-2 mt-auto">
-                          {extractTechnologies(project).map(
-                            (tech: any, techIndex: any) => (
-                              <span
-                                key={techIndex}
-                                className="px-2 py-0.5 text-xs border border-primary-500 rounded-full text-white cursor-pointer hover:bg-[#4f8fff]/5 transition-colors"
-                              >
-                                {tech}
-                              </span>
-                            )
+                          <Tooltip
+                            id={project.title as string}
+                            className="bg-primary! border-primary! shadow-primary/20! text-xs! font-medium! tracking-wider!"
+                          />
+                          {project.technologies.map(
+                            (tech: TechItem, index: number) => {
+                              if (index > 10) return null;
+                              const IconComponent = getSvg(
+                                String(tech.text).toLowerCase()
+                              );
+                              return IconComponent ? (
+                                <div
+                                  key={index}
+                                  data-tooltip-id={project.title as string}
+                                  data-tooltip-content={tech.text}
+                                  className="p-1.5 rounded-md bg-background border border-border/30 hover:border-primary/50 hover:bg-background transition-all duration-300 flex items-center justify-center shadow-sm"
+                                >
+                                  <IconComponent className="w-4 h-4 text-gray-300 hover:text-primary transition-colors" />
+                                </div>
+                              ) : null;
+                            }
                           )}
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   </motion.div>
                 );
               })}
             </AnimatePresence>
           </div>
 
-          {/* Navigation Controls */}
-          <div className="absolute bottom-[-3rem] left-0 right-0 flex items-center justify-center gap-5">
-            <button
+          <div className="flex items-center justify-center gap-25 mt-15">
+            {/* Previous Button - Hand-drawn style */}
+            <motion.button
               onClick={goToPrev}
-              className="w-6 h-6 cursor-pointer rounded-full bg-[#14141e] border border-[#4f8fff] flex items-center justify-center hover:bg-[#252535] transition-colors"
               disabled={filteredProjects.length <= 1}
+              whileHover={{
+                scale: 1.15,
+                rotate: -5,
+                boxShadow: "0 0 25px rgba(139, 92, 246, 0.5)",
+              }}
+              whileTap={{ scale: 0.9, rotate: 5 }}
+              className="group relative w-16 h-16 flex items-center bg-primary/60 cursor-pointer justify-center transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform rotate-2"
+              style={{
+                clipPath: "polygon(10% 0%, 90% 5%, 95% 90%, 5% 95%)",
+                boxShadow:
+                  "0 8px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(139, 92, 246, 0.2)",
+              }}
             >
-              <svg width="12" height="12" viewBox="0 0 8 10" fill="#4f8fff">
-                <path d="M7 1L1 5L7 9V1Z" fill="#4f8fff" />
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                className="group-hover:scale-125 transition-transform"
+              >
+                <path
+                  d="M12,3 Q6,8 7,10 Q8,12 12,17"
+                  stroke="url(#leftArrowRoughGradient)"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <defs>
+                  <linearGradient id="leftArrowRoughGradient">
+                    <stop offset="0%" stopColor="#FFFFFF" />
+                    <stop offset="100%" stopColor="#FFFFFF" />
+                  </linearGradient>
+                </defs>
               </svg>
-            </button>
+            </motion.button>
 
-            {/* Enhanced Dots with colored lines */}
-            <div className="flex items-center">
-              {filteredProjects.map((_, index) => (
-                <div key={index} className="flex items-center">
-                  <motion.button
-                    onClick={() => setActiveIndex(index)}
-                    className="relative w-2 h-2"
-                    whileHover={{ scale: 1.2 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {/* Outer ring */}
-                    <div
-                      className={`absolute inset-0 rounded-full transition-colors duration-300 ${
-                        index <= activeIndex
-                          ? "bg-[#4f8fff] shadow-[0_0_10px_#4f8fff]"
-                          : "bg-[#252535]"
-                      }`}
-                    />
-                    {/* Inner dot */}
-                    {/* <div
-                      className={`absolute inset-[3px] rounded-full transition-colors duration-300 ${
-                        index <= activeIndex ? "bg-white" : "bg-[#4f8fff]"
-                      }`}
-                    /> */}
-                  </motion.button>
-                  {index < filteredProjects.length - 1 && (
-                    <div
-                      className={`w-6 h-[2px] mx-1 transition-colors duration-300 ${
-                        index < activeIndex ? "bg-[#4f8fff]" : "bg-[#252535]"
-                      }`}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <button
+            {/* Next Button - Hand-drawn style */}
+            <motion.button
               onClick={goToNext}
-              className="w-6 h-6 rounded-full cursor-pointer bg-[#14141e] border border-[#4f8fff] flex items-center justify-center hover:bg-[#252535] transition-colors"
               disabled={filteredProjects.length <= 1}
+              whileHover={{
+                scale: 1.15,
+                rotate: 5,
+                boxShadow: "0 0 25px rgba(139, 92, 246, 0.5)",
+              }}
+              whileTap={{ scale: 0.9, rotate: -5 }}
+              className="group relative w-16 h-16 flex items-center bg-primary/60 cursor-pointer justify-center transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform -rotate-2"
+              style={{
+                clipPath: "polygon(5% 5%, 95% 0%, 90% 95%, 10% 90%)",
+                boxShadow:
+                  "0 8px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(139, 92, 246, 0.2)",
+              }}
             >
-              <svg width="12" height="12" viewBox="0 0 8 10" fill="#4f8fff">
-                <path d="M1 1L7 5L1 9V1Z" fill="#4f8fff" />
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                className="group-hover:scale-125 transition-transform"
+              >
+                <path
+                  d="M8,3 Q14,8 13,10 Q12,12 8,17"
+                  stroke="url(#rightArrowRoughGradient)"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <defs>
+                  <linearGradient id="rightArrowRoughGradient">
+                    <stop offset="0%" stopColor="#FFFFFF" />
+                    <stop offset="100%" stopColor="#FFFFFF" />
+                  </linearGradient>
+                </defs>
               </svg>
-            </button>
+            </motion.button>
           </div>
         </div>
 
-        {/* Project Modal */}
         <ProjectModal
           isOpen={!!selectedProject}
           onClose={() => setSelectedProject(null)}

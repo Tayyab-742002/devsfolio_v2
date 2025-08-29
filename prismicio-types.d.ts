@@ -151,7 +151,36 @@ export type LiveUrlDocument<Lang extends string = string> =
     Lang
   >;
 
-interface TechStackDocumentData {}
+/**
+ * Item in *Tech Stack → tech*
+ */
+export interface TechStackDocumentDataTechItem {
+  /**
+   * title field in *Tech Stack → tech*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: tech_stack.tech[].title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+}
+
+/**
+ * Content for Tech Stack documents
+ */
+interface TechStackDocumentData {
+  /**
+   * tech field in *Tech Stack*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: tech_stack.tech[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  tech: prismic.GroupField<Simplify<TechStackDocumentDataTechItem>>;
+}
 
 /**
  * Tech Stack document from Prismic
@@ -1092,6 +1121,16 @@ export interface ProjectsSliceDefaultPrimaryProjectsItem {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   long_description: prismic.RichTextField;
+
+  /**
+   * Technologies field in *Projects → Default → Primary → projects*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.default.primary.projects[].technologies
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  technologies: prismic.KeyTextField;
 }
 
 /**
@@ -1339,6 +1378,7 @@ declare module "@prismicio/client" {
       LiveUrlDocumentData,
       TechStackDocument,
       TechStackDocumentData,
+      TechStackDocumentDataTechItem,
       TitleDocument,
       TitleDocumentData,
       UidDocument,
