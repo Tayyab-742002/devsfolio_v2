@@ -81,7 +81,7 @@ const AboutMe: FC<AboutMeProps> = ({ slice }) => {
   return (
     <section
       ref={sectionRef}
-      data-slice-type="about_me"
+      data-slice-type="about_me py-24"
       className="min-h-screen relative overflow-hidden py-20"
     >
       {/* Header */}

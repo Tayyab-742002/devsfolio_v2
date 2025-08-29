@@ -150,7 +150,7 @@ const Contact: FC<ContactProps> = ({ slice }) => {
 
   return (
     <section
-      className="min-h-screen relative py-20 px-4"
+      className="min-h-screen relative  py-24 px-4"
       data-slice-type="contact"
     >
       {/* Section Header */}
