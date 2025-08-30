@@ -5,7 +5,7 @@ import Wrapper from "@/components/general/MainWrapper";
 import { Toaster } from "react-hot-toast";
 import emailjs from "@emailjs/browser";
 import { ErrorBoundary } from "@/components/general/ErrorBoundary";
-
+import { Analytics } from "@vercel/analytics/next";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -146,7 +146,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ErrorBoundary>
-          <Wrapper>{children}</Wrapper>
+          <Wrapper>
+            {children}
+
+            <Analytics />
+          </Wrapper>
 
           <Toaster position="top-right" />
         </ErrorBoundary>
