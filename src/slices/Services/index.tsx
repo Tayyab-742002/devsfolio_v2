@@ -5,7 +5,6 @@ import { SliceComponentProps } from "@prismicio/react";
 
 import gsap from "gsap";
 import BrushStroke from "@/components/common/PaintedBrushStroke";
-import { getSvg } from "@/utils/getSvg";
 
 export type ServicesProps = SliceComponentProps<Content.ServicesSlice>;
 
