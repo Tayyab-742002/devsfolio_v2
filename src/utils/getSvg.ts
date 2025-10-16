@@ -36,6 +36,7 @@ import {
   AboutIcon,
   ProjectIcon,
   ContactIcon,
+  Vercel,
 } from "@/components/icons";
 
 const techIcons: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
@@ -75,6 +76,7 @@ const techIcons: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
   about: AboutIcon,
   projects: ProjectIcon,
   contact: ContactIcon,
+  vercel: Vercel,
 };
 
 export function getSvg(

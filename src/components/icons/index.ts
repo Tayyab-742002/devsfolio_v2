@@ -37,6 +37,7 @@ import HomeIcon from "./Home";
 import AboutIcon from "./About";
 import ProjectIcon from "./Project";
 import ContactIcon from "./Contact";
+import { Vercel } from "./Vercel";
 export {
   ReactIcon,
   NextIcon,
@@ -77,4 +78,5 @@ export {
   AboutIcon,
   ProjectIcon,
   ContactIcon,
+  Vercel
 };
