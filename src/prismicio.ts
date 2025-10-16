@@ -35,7 +35,13 @@ export const createClient = (config: ClientConfig = {}) => {
     routes,
     fetchOptions:
       process.env.NODE_ENV === "production"
-        ? { next: { tags: ["prismic"] }, cache: "force-cache" }
+        ? {
+            next: {
+              tags: ["prismic"],
+              revalidate: 3600, // Revalidate every hour in production (more reasonable)
+            },
+            cache: "default", // Use default caching for build stability
+          }
         : { next: { revalidate: 5 } },
     ...config,
   });

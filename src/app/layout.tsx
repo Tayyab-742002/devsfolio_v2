@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Comic_Neue } from "next/font/google";
 import "./globals.css";
 import Wrapper from "@/components/general/MainWrapper";
 import { Toaster } from "react-hot-toast";
@@ -14,6 +14,21 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+});
+
+const comicNeue = Comic_Neue({
+  variable: "--font-comic-neue",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+  preload: false, // Don't preload on mobile to avoid FOUT
 });
 
 // Initialize EmailJS
@@ -143,7 +158,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${comicNeue.variable} antialiased`}
       >
         <ErrorBoundary>
           <Wrapper>
