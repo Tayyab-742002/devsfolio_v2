@@ -14,7 +14,7 @@ type GithubRepo = {
 const USERNAME = "Tayyab-742002";
 const GITHUB_API = "https://api.github.com";
 
-export const revalidate = 60 * 60; // 1 hour ISR for route segment
+export const revalidate = 3600; // 1 hour ISR for route segment
 
 export async function GET() {
   const headers: HeadersInit = {
