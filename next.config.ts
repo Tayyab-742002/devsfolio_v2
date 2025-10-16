@@ -22,6 +22,8 @@ const nextConfig: NextConfig = {
     scrollRestoration: true,
     // Performance optimizations
     optimizePackageImports: ["@prismicio/react", "framer-motion"],
+    // Increase build timeout for CMS data fetching
+    staticGenerationRetryCount: 3,
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
