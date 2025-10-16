@@ -5,6 +5,7 @@ import { SliceComponentProps } from "@prismicio/react";
 
 import gsap from "gsap";
 import BrushStroke from "@/components/common/PaintedBrushStroke";
+import { getSvg } from "@/utils/getSvg";
 
 export type ServicesProps = SliceComponentProps<Content.ServicesSlice>;
 
@@ -54,7 +55,6 @@ const ServiceCard: FC<ServiceCardProps> = ({ title, description }) => {
         {/* Icon section */}
         <div className="flex justify-center mb-8">
           <div className="relative">
-            {/* Hand-drawn circle background */}
             <svg
               width="100"
               height="100"
@@ -92,7 +92,7 @@ const ServiceCard: FC<ServiceCardProps> = ({ title, description }) => {
             </svg>
 
             {/* Icon container */}
-            <div className="relative w-20 h-20 flex items-center justify-center"></div>
+            <div className="relative w-25 h-20 flex items-center justify-center"></div>
           </div>
         </div>
 
