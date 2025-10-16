@@ -1,23 +1,49 @@
 "use client";
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Content } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
-
-
-
+import GithubMetrics from "@/components/GithubMetrics";
 
 const Hero: FC<SliceComponentProps<Content.HeroSlice>> = ({ slice }) => {
-
   const textRef = useRef<HTMLDivElement>(null);
+  type GithubStats = {
+    username: string;
+    followers: number;
+    following: number;
+    publicRepos: number;
+    stars: number;
+    forks: number;
+  };
+  const [stats, setStats] = useState<GithubStats | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/github", { next: { revalidate: 3600 } });
+        if (!res.ok) throw new Error("Failed to load stats");
+        const data = (await res.json()) as GithubStats;
+        if (!cancelled) setStats(data);
+      } catch {
+        if (!cancelled) setError("Unable to load GitHub stats");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
-    <section className="relative py-24 lg:mt-80 flex items-center justify-center overflow-hidden">
-      {/* 3D Scene Container */}
-      
-
+    <section className="relative py-24 lg:mt-80 flex items-center justify-center overflow-hidden bg-background">
       {/* Content Container */}
-      <div className="container mx-auto px-4 text-center p-10">
+      <div className="container mx-auto px-4 text-center p-10 relative z-10">
         {/* Avatar */}
         <div className="relative w-48 h-48 mx-auto mb-8">
           <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-transparent opacity-80 blur-xl animate-pulse" />
@@ -35,7 +61,7 @@ const Hero: FC<SliceComponentProps<Content.HeroSlice>> = ({ slice }) => {
         </div>
 
         {/* Name */}
-        <div ref={textRef} className="mt-10 ">
+        <div ref={textRef} className="mt-10">
           <PrismicRichText
             field={slice.primary.name}
             components={{
@@ -62,7 +88,6 @@ const Hero: FC<SliceComponentProps<Content.HeroSlice>> = ({ slice }) => {
 
         {/* CTA Button */}
         <PrismicNextLink
-          // field={slice.primary.cta}
           href={"#projects"}
           className="inline-flex mt-10 items-center gap-2 px-8 py-3 hover:text-primary rounded-full border-2 border-primary/30 text-white hover:bg-primary/10 transition-all duration-300 group"
         >
@@ -72,7 +97,16 @@ const Hero: FC<SliceComponentProps<Content.HeroSlice>> = ({ slice }) => {
           </span>
         </PrismicNextLink>
 
-        {/* Scroll Indicator */}
+        {/* GitHub Metrics - Enhanced */}
+        <div className="relative mt-16 flex items-center justify-center">
+          <div className="relative z-20 pointer-events-auto">
+            <GithubMetrics
+              stats={stats}
+              loading={loading}
+              error={error}
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
